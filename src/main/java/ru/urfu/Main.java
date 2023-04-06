@@ -9,10 +9,10 @@ public class Main {
         library.addBook(new Book("Name4", "Author4", 2014));
         library.addBook(new Book("Name5", "Author1", 2015));
 
-        for (Book book : library.searchByAuthor("Author1"))
-            System.out.println(book.getName() + " " + book.getAuthor() + " " + book.getYear());
-        System.out.println();
+        Book bookByAuthor = library.searchByAuthor("Author4");
+        System.out.println(bookByAuthor.getName() + " " + bookByAuthor.getAuthor() + " " + bookByAuthor.getYear() + "\n");
         for (Book book : library.getBooksFromInterval(2011, 2014))
             System.out.println(book.getName() + " " + book.getAuthor() + " " + book.getYear());
+
     }
 }
