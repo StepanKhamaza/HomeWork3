@@ -11,18 +11,15 @@ import java.util.*;
  *  При правильной работе hashCode() все операции будут обеспечивать сложность в O(1)
  *  С функцией removeBook() аналогично
  *
- * Функции searchByName(), searchByAuthor() и searchByYear() будут иметь сложность O(n) где n - количество книг с определенным
- * название, автором, годом издания соответственно.
- * В качестве значения решил использовать LinkedHashSet - т.к. он обеспечивает более быструю итерацию (она пригодится, когда будем возвращать список книг при поиске, под капотом stream()
- * используется spliterator, который в свою очередь использует iterator())
- * по элементам чем просто HashSet, а операции добавления и удаление умеют такую же сложность.
+ * Функции searchByName(), searchByAuthor() и searchByYear() будут иметь сложность O(1) т.к. нам нужно будет обратиться к Map по
+ * определенному ключу (такая функция обеспечивает O(1) при правильной работе hashCode())
+ *
+ * В качестве значения решил использовать LinkedHashSet - т.к. он обеспечивает более быструю итерацию, которая пригодится для вывода
+ * значений на экран. Также я выбрал множество, потому что нам не важен порядок, и для вывода мы можем воспользоваться forEach
  *
  * Функция getBooksFromInterval(): пусть n - это интервал в котором мы ищем книги (r - l), m - максимальное количество книг
- * в каком-то из годов данного интервала, тогда худшая сложность будет O(n*m), лучшая сложность будет O(n) или O(m) - когда
- * интервал слишком маленький, либо количество книг небольшое. Среднюю сложность посчитать сложно.
- *
- * В качестве возвращающего значения использовал ArrayList (реализация методов toList вызванная при использовании stream()),
- * т.к. нужно вывести все книги, удобнее всего их добавить в ArrayList, для дальнейшей работы (можно было и вывести все сразу, но мне показалось, что так будет лучше)
+ * в каком-то из годов данного интервала, тогда худшая сложность будет O(n*m)(квадратичная), лучшая сложность будет O(n) или O(m) (то есть линейная) - когда
+ * интервал слишком маленький, либо количество книг небольшое. Полагаться на лучший вариант не стоит, поэтому сложность O(n*m).
  */
 public class Library {
     private final Map<String, Set<Book>> mapByName;
@@ -69,22 +66,22 @@ public class Library {
         }
     }
 
-    public List<Book> searchByName(String name) {
-        return mapByName.getOrDefault(name, new LinkedHashSet<>()).stream().toList();
+    public Set<Book> searchByName(String name) {
+        return mapByName.getOrDefault(name, new LinkedHashSet<>());
     }
 
-    public List<Book> searchByAuthor(String author) {
-        return mapByAuthor.getOrDefault(author, new LinkedHashSet<>()).stream().toList();
+    public Set<Book> searchByAuthor(String author) {
+        return mapByAuthor.getOrDefault(author, new LinkedHashSet<>());
     }
 
-    public List<Book> searchByYear(Integer year) {
-        return mapByYear.getOrDefault(year, new LinkedHashSet<>()).stream().toList();
+    public Set<Book> searchByYear(Integer year) {
+        return mapByYear.getOrDefault(year, new LinkedHashSet<>());
     }
 
-    public List<Book> getBooksFromInterval(int l, int r) {
-        List<Book> result = new ArrayList<>();
+    public Set<Book> getBooksFromInterval(int l, int r) {
+        Set<Book> result = new LinkedHashSet<>();
         for (int i = l; i <= r; i++)
-            result.addAll(mapByYear.getOrDefault(i, new LinkedHashSet<>()).stream().toList());
+            result.addAll(mapByYear.getOrDefault(i, new LinkedHashSet<>()));
 
         return result;
     }
