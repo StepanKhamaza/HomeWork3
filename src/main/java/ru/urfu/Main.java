@@ -10,11 +10,12 @@ public class Main {
         library.addBook(new Book("Name5", "Author1", 2015));
         library.addBook(new Book("Name5", "Author1", 2015));
         library.removeBook(new Book("Name6", "Author6", 2020));
+        library.removeBook(new Book("Name1", "Author1", 2011));
 
         for (Book book : library.searchByAuthor("Author1"))
             System.out.println(book.getName() + " " + book.getAuthor() + " " + book.getYear());
         System.out.println();
-        for (Book book : library.getBooksFromInterval(2011, 2014))
+        for (Book book : library.getBooksFromInterval(2011, 2020))
             System.out.println(book.getName() + " " + book.getAuthor() + " " + book.getYear());
 
     }

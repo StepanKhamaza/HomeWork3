@@ -48,22 +48,16 @@ public class Library {
 
     public void removeBook(Book book) {
         Set<Book> current = mapByName.get(book.getName());
-        if (current != null) {
+        if (current != null)
             current.remove(book);
-            mapByName.put(book.getName(), current);
-        }
 
         current = mapByAuthor.get(book.getAuthor());
-        if (current != null) {
+        if (current != null)
             current.remove(book);
-            mapByAuthor.put(book.getAuthor(), current);
-        }
 
         current = mapByYear.get(book.getYear());
-        if (current != null) {
+        if (current != null)
             current.remove(book);
-            mapByYear.put(book.getYear(), current);
-        }
     }
 
     public Set<Book> searchByName(String name) {
@@ -81,7 +75,7 @@ public class Library {
     public Set<Book> getBooksFromInterval(int l, int r) {
         Set<Book> result = new LinkedHashSet<>();
         for (int i = l; i <= r; i++)
-            result.addAll(mapByYear.getOrDefault(i, new LinkedHashSet<>()));
+            result.addAll(searchByYear(i));
 
         return result;
     }
